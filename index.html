@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine?</title>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("TfDgqxFjHc9VoV44P"); // USER ID
+    })();
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1a0f14, #3a1620);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 2.6rem;
+      margin-bottom: 30px;
+    }
+
+    img {
+      max-width: 300px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      padding: 15px 30px;
+      font-size: 22px;
+      transition: 0.2s;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+      margin-right: 20px;
+    }
+
+    #no {
+      background-color: #222;
+      color: white;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- STARTBILD -->
+    <img id="photo" src="img1.jpg" alt="Us">
+
+    <h1>Will you be my Valentine? 💖</h1>
+
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const photo = document.getElementById("photo");
+
+    let yesSize = 22;
+
+    // 🔁 HIER DEINE BILDER EINTRAGEN
+    const images = [
+      "img1.jpg",
+      "img2.jpg",
+      "img3.jpg",
+      "img4.jpg"
+    ];
+
+    let imgIndex = 0;
+
+    function noClicked() {
+      // No springt weg
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 80);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      // Yes wird größer
+      yesSize += 12;
+      yesBtn.style.fontSize = yesSize + "px";
+      yesBtn.style.padding = (20 + yesSize / 4) + "px";
+
+      // Nächstes Bild
+      imgIndex = (imgIndex + 1) % images.length;
+      photo.src = images[imgIndex];
+    }
+
+    noBtn.addEventListener("click", noClicked);
+    noBtn.addEventListener("touchstart", noClicked);
+
+    yesBtn.addEventListener("click", () => {
+      emailjs.send("service_ho95c7a", "template_3jn4o5a", {})
+        .then(() => {
+          document.body.innerHTML =
+            "<h1 style='color:white;text-align:center;'>Yay 💖<br>You said YES!</h1>";
+        })
+        .catch(() => {
+          alert("Email failed 😕");
+        });
+    });
+  </script>
+
+</body>
+</html>
